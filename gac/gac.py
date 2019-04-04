@@ -75,7 +75,9 @@ def infer_label(directed_graph):
     mto = 1/3 * ( A/(V-1) + (V-T)/(V-1) + abs(A-T)/(V-2) ) if V > 2 else 0
     mtm = 1/3 * ( A/V + T/V + (V-abs(A-T))/V ) if V > 0 else 0
 
-    return max((oto, 'oto'), (otm, 'otm'), (mto, 'mto'), (mtm, 'mtm'), key=lambda v: v[0])
+    certainty, pattern_name = max((oto, 'oto'), (otm, 'otm'), (mto, 'mto'), (mtm, 'mtm'), key=lambda v: v[0])
+
+    return (certainty, pattern_name, attackers, victims)
 
 def gac_cluster(alerts, similarity_threshold=0.25, clique_size=15):
     '''
@@ -97,7 +99,7 @@ def gac_cluster(alerts, similarity_threshold=0.25, clique_size=15):
         alerts_in_clique = get_alerts_by_uid(alerts, clique_uids)
         g_flow = netflow_graph(alerts_in_clique)
 
-        pattern_name, match_certainty = infer_label(g_flow)
-        labeled_clusters.append((pattern_name, match_certainty, alerts_in_clique))
+        certainty, pattern_name, attackers, victims = infer_label(g_flow)
+        labeled_clusters.append((certainty, pattern_name, alerts_in_clique, attackers, victims))
     return labeled_clusters
     # TODO add attackers and victims lists
