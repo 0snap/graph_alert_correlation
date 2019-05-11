@@ -69,7 +69,6 @@ def infer_label(directed_graph):
     A = len(attackers)
     T = len(victims)
 
-    # Formulae directly taken 
     oto = 1/3 * ( (V-A)/(V-1) + (V-T)/(V-1) + (V-abs(A-T))/V ) if V > 1 else 0
     otm = 1/3 * ( (V-A)/(V-1) + T/(V-1) + abs(A-T)/(V-2) ) if V > 2 else 0
     mto = 1/3 * ( A/(V-1) + (V-T)/(V-1) + abs(A-T)/(V-2) ) if V > 2 else 0
@@ -102,4 +101,8 @@ def gac_cluster(alerts, similarity_threshold=0.25, clique_size=15):
         certainty, pattern_name, attackers, victims = infer_label(g_flow)
         labeled_clusters.append((certainty, pattern_name, alerts_in_clique, attackers, victims))
     return labeled_clusters
-    # TODO add attackers and victims lists
+
+def gac_connect(alerts, similarity_threshold=0.25, clique_size=15):
+    pass
+    # TODO
+    
