@@ -74,7 +74,7 @@ def infer_label(directed_graph):
     mto = 1/3 * ( A/(V-1) + (V-T)/(V-1) + abs(A-T)/(V-2) ) if V > 2 else 0
     mtm = 1/3 * ( A/V + T/V + (V-abs(A-T))/V ) if V > 0 else 0
 
-    certainty, pattern_name = max((oto, 'oto'), (otm, 'otm'), (mto, 'mto'), (mtm, 'mtm'), key=lambda v: v[0])
+    certainty, pattern_name = max((oto, 'one-to-one'), (otm, 'one-to-many'), (mto, 'many-to-one'), (mtm, 'many-to-many'), key=lambda v: v[0])
 
     return (certainty, pattern_name, attackers, victims)
 
